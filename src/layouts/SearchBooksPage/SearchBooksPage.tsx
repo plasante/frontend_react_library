@@ -6,7 +6,7 @@ import { Pagination } from "../../utils/Pagination";
 
 
 export const SearchBooksPage = () => {
-    
+
     const [books, setBooks] = useState<BookModel[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [httpError, setHttpError] = useState(null);
@@ -20,7 +20,7 @@ export const SearchBooksPage = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             const baseUrl: string = "http://localhost:8080/api/books";
-            
+
             let url: string = '';
 
             if (searchUrl === '') {
@@ -28,9 +28,9 @@ export const SearchBooksPage = () => {
             } else {
                 url = baseUrl + searchUrl;
             }
-            
+
             const response = await fetch(url);
-            
+
             if (!response.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -97,17 +97,17 @@ export const SearchBooksPage = () => {
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-    return(
+    return (
         <div>
             <div className="container">
                 <div className="row mt-5">
                     <div className="col-6">
                         <div className="d-flex">
-                            <input className="form-control me-2" type="search" 
-                                placeholder="Search" aria-labelledby="Search" 
-                                onChange={e => setSearch(e.target.value)}/>
+                            <input className="form-control me-2" type="search"
+                                placeholder="Search" aria-labelledby="Search"
+                                onChange={e => setSearch(e.target.value)} />
                             <button className="btn btn-outline-success"
-                                    onClick={() => searchHandleChange()}>
+                                onClick={() => searchHandleChange()}>
                                 Search
                             </button>
                         </div>
@@ -116,7 +116,7 @@ export const SearchBooksPage = () => {
                         <div className="dropdown">
                             <button className="btn btn-secondary dropdown-toggle" type="button"
                                 id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                 Category           
+                                Category
                             </button>
                             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li>
@@ -148,18 +148,33 @@ export const SearchBooksPage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="mt-3">
-                    <h5>Number of results: ({totalAmountOfBooks})</h5>
-                    <p>
-                        {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks} items;
-                    </p>
-                    {books.map(book => (
-                        <SearchBook book={book} key={book.id}/>
-                    ))}
-                    {totalPages > 1 &&
-                        <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate}  />
-                    }
-                </div>
+                {totalAmountOfBooks > 0
+                    ?
+                    <div>
+                        <div className='mt-3'>
+                            <h5>Number of results: ({totalAmountOfBooks})</h5>
+                        </div>
+                        <p>
+                            {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks} items:
+                        </p>
+                        {books.map(book => (
+                            <SearchBook book={book} key={book.id} />
+                        ))}
+                    </div>
+                    :
+                    <div>
+                        <div className='m-5'>
+                            <h3>
+                                Can't find what you are looking for?
+                            </h3>
+                            <a type='button' className='btn main-color btn-md px-4 me-md-2 fw-bold text-white'
+                                href='#'>Library Services</a>
+                        </div>
+                    </div>
+                }
+                {totalPages > 1 &&
+                    <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
+                }
             </div>
         </div>
     );
