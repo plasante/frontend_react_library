@@ -1,4 +1,3 @@
-import { ReturnBook } from "../../../HomePage/Components/ReturnBook";
 import ShelfCurrentLoans from "../../../models/ShelfCurrentLoans";
 
 export const LoansModal: React.FC<{ shelfCurrentLoan: ShelfCurrentLoans, mobile: boolean, returnBook: any, renewLoan: any }> = (props) => {
