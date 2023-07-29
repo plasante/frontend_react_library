@@ -6,7 +6,6 @@ import { Pagination } from "../../../utils/Pagination";
 
 export const Messages = () => {
 
-    // Definir les states de la composente
     const { authState } = useOktaAuth();
     const [isLoadingMessages, setIsLoadingMessages] = useState(true);
     const [httpError, setHttpError] = useState(null);
@@ -39,23 +38,24 @@ export const Messages = () => {
                 setTotalPages(messagesResponseJson.page.totalPages);
             }
             setIsLoadingMessages(false);
-        }
+        } 
         fetchUserMessages().catch((error: any) => {
             setIsLoadingMessages(false);
             setHttpError(error.messages);
         })
         window.scrollTo(0, 0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authState, currentPage]);
 
     if (isLoadingMessages) {
         return (
-            <SpinnerLoading />
+            <SpinnerLoading/>
         );
     }
 
     if (httpError) {
         return (
-            <div className="container m-5">
+            <div className='container m-5'>
                 <p>{httpError}</p>
             </div>
         );
@@ -63,21 +63,21 @@ export const Messages = () => {
 
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-    return(
-        <div className="mt-2">
-            {messages.length > 0 ?
+    return (
+        <div className='mt-2'>
+            {messages.length > 0 ? 
                 <>
                     <h5>Current Q/A: </h5>
                     {messages.map(message => (
                         <div key={message.id}>
-                            <div className="card mt-2 shadow p-3 bg-body rounded">
+                            <div className='card mt-2 shadow p-3 bg-body rounded'>
                                 <h5>Case #{message.id}: {message.title}</h5>
                                 <h6>{message.userEmail}</h6>
                                 <p>{message.question}</p>
                                 <hr/>
                                 <div>
                                     <h5>Response: </h5>
-                                    {message.response && message.adminEmail ?
+                                    {message.response && message.adminEmail ? 
                                         <>
                                             <h6>{message.adminEmail} (admin)</h6>
                                             <p>{message.response}</p>
